@@ -1,0 +1,129 @@
+
+<html>
+<head>
+	<style type="text/css">
+
+		
+		body {
+
+	  font-family:"Roboto", Arial, sans-serif;
+	  margin:0 auto;
+	  text-align:center;
+	  margin-top:50px;
+	  color:#FFF;
+	  text-shadow:-1px -1px #333;
+	  background:#333;
+	  h1 {
+	    font-weight:normal;
+	  }
+  .turn {
+    margin-bottom:10px;
+  }
+  table {
+    border-collapse:collapse;
+    width:150px;
+    margin:0 auto;
+    td {
+      width:50px;
+      height:50px;
+      border:1px solid #555;
+      cursor:pointer;
+      &:before {
+        font-size:1.5em;
+        line-height:1;
+      }
+      &.cross:before {
+        content:"x";
+        color:lightblue;
+      }
+      &.circle:before {
+        content:"o";
+        color:pink;
+      }
+    }
+  }
+  .reset {
+    background:#555;
+    border:1px solid #333;
+    padding:5px 10px;
+    color:#FFF;
+    cursor:pointer;
+    font-family:"Roboto", Arial, sans-serif;
+    text-transform:uppercase;
+    &:hover {
+      opacity:0.8;
+    }
+  }
+}
+
+.btn{
+
+	background-color: white;
+	border: 3px black;
+	font-size: 48px;
+	text-indent: center;
+	text-align: center;
+}
+	</style>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+
+
+	let x = 'x';
+	let o='o';
+
+
+function onClickBoardCell(el){
+
+	var txt = $(el).html();
+	if(txt === 'x' || txt === 'o'){  
+		alert('Value is already set. returning.');
+		return; 
+	}
+	$(el).html(x);
+	[x,o] = [o,x];
+
+}
+
+function drawBoard() {
+
+
+var board = $('#board');
+board.remove('#grid-overlay');
+
+	var boardSize = $('#BoardSizeField').val();
+	var wrap = $('<div id="grid-overlay"></div>');
+	var gsize = 16;
+
+// create overlay
+var tbl = $('<table></table>');
+for (var y = 1; y <= boardSize; y++) {
+    var tr = $('<tr></tr>');
+    for (var x = 1; x <= boardSize; x++) {
+        var td = $('<td class="btn" onclick=\'onClickBoardCell(this);\'>  </td>');
+        td.css('width', gsize+'0px').css('height', gsize+'0px');
+
+        tr.append(td);
+    }
+    tbl.append(tr);
+}
+
+board.css('width', boardSize * gsize+'px').css('height', boardSize * gsize+'px')
+
+// attach overlay
+wrap.append(tbl);
+board.after(wrap);
+}
+
+    </script>
+</head>
+<body>
+<div id='BoardSizeDiv'>
+ <label for="BS">Board Size:</label><br>
+	<input type="text" size=3 id='BoardSizeField' value='3'>
+	<button type="button" onclick="drawBoard()">Draw Board!</button>
+	<button type="button" onclick="location.reload();">Clear Board!</button>
+    </div>
+    <div id='board'></div>
+</body>
+</html> 
